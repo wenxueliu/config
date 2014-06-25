@@ -1,3 +1,34 @@
+
+"################ Dependent ################  
+"#### ubuntu
+"sudo apt-get install ctags
+"sudo apt-get install build-essential cmake python-dev  #编译YCM自动补全插件依赖
+
+"#### centos
+"sudo yum install python-devel.x86_64
+"sudo yum groupinstall 'Development Tools'
+
+"#### mac
+"brew install ctags
+
+"if you are pythonic 
+"sudo pip install pyflakes
+"sudo pip install pylint
+"sudo pip install pep8
+
+
+"1.当你正在编辑时，留意那些重复的和（或者）花费相当多时间的动作。
+"2.寻找一个能更快完成这个动作的编辑器命令。你可以阅读文档，询问朋友，或者看看别人是怎么做的。
+"3.练习使用这个命令，直到无需思考你的手指就能输入。
+
+"注意
+"1. 我想把工作做好，我没有时间去翻阅文档寻找一些新命令。”如果你这样想，你将会停留在计算石器时代。有些人什么事都使用Notepad，然后惊讶于其他人使用一半的时间完成了工作。
+"2. 在需要的时候才寻找新的替代方法,而不要成为玩vim工具的，vim是为更好地写代码。
+
+
+
+"###################### BASE ########################
+
 set nocompatible "be iMproved
 filetype off     "required
 
@@ -8,6 +39,7 @@ set background=dark "使用color solarized
 set cursorline "the cursor highlight
 "set cursorcolumn "the cursor higthlight by column
 set ttyfast
+set magic "For regular expressions turn magic on
 
 set backspace=indent,eol,start "set the backspace workstyle"
 
@@ -27,6 +59,7 @@ set shiftwidth=4 "the number of spaces when alignment"
 set softtabstop=4 "delete four space when type backspace
 set smarttab "delete four space when type backspace
 set expandtab "transform the tab to space
+set shiftround "use multiple of shiftwidth when indenting with '<' and '>'
 "}
 
 " Encode SETTINGS {
@@ -39,24 +72,18 @@ set scrolloff=3
 set fenc=utf-8
 set autoindent
 set hidden
+set laststatus=2 "" Always show the status line
 
 "set laststatus=2
 "set number "显示行号
 "set relativenumber "相对行号 要想相对行号起作用要放在显示行号后面
 "set undofile "无限undo
-"set nowrap "禁止自动换行
-set wrap "自动换行
 "autocmd! bufwritepost _vimrc source % "自动载入配置文件不需要重启
 
 "将-连接符也设置为单词
 set isk+=-
 
-set ignorecase "ignore the upper or lower of alphabet when searching
-set smartcase
 "set gdefault
-set incsearch
-set showmatch  "add the match character, eg you input '(' will add ')' automatably
-set hlsearch
 
 set numberwidth=4 "行号栏的宽度
 "set columns=135 "初始窗口的宽度
@@ -72,8 +99,29 @@ inoremap <c-k> <up>
 inoremap <c-l> <right>
 inoremap <c-h> <left>
 
-"=====================================
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+
+" tabnext tabpreviouse
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+
+
+
+
+"################ Abbr ################
+abbr op openstack
+
+
+"################ Vundle "################
 "Vundle SETTINGS {
+
+
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
@@ -93,9 +141,76 @@ Bundle 'ctrlp.vim'
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrl_map = '<leader>p'
 
+"目录导航
+Bundle 'scrooloose/nerdtree'
+nnoremap <silent> <F8> :NERDTree <CR>
+let NERDTreeHighlightCursorline=1
+let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+let g:netrw_home='~/bak'
+"close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
 
+"for minibufferexpl
+"Bundle 'fholgado/minibufexpl.vim'
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
+"解决FileExplorer窗口变小问题
+"let g:miniBufExplForceSyntaxEnable = 1
+"let g:miniBufExplorerMoreThanOne=2
+"let g:miniBufExplCycleArround=1
+"
+"" 默认方向键左右可以切换buffer
+"nnoremap <TAB> :MBEbn<CR>
+"nnoremap <leader>bn :MBEbn<CR>
+"nnoremap <leader>bp :MBEbp<CR>
+"nnoremap <leader>bd :MBEbd<CR>
 
-Bundle 'AutoClose'
+"navigation by Tags
+"https://github.com/majutsushi/tagbar/blob/master/doc/tagbar.txt
+" 's' : change sort in Tagbar window
+" 'Enter' : switch to the item when in Tagbar Window
+" 'zc|zo|zR|zM' : fold to the item when in Tagbar Window
+" 'h' : help when in Tagbar window
+
+Bundle 'majutsushi/tagbar'
+nnoremap <silent> <F9> :TagbarToggle<CR>
+let g:tagbar_map_help = "h"
+let g:tagbar_left = 1 
+let g:tagbar_width = 20
+let g:tagbar_sort = 0
+let g:tagbar_autofocus = 1
+let g:tagbar_compact = 1
+
+Bundle 'vim-scripts/taglist.vim'
+set tags=tags;/
+let Tlist_Ctags_Cmd="/usr/bin/ctags"
+nnoremap <silent> <F7> :TlistToggle<CR>
+let Tlist_Auto_Highlight_Tag = 1
+let Tlist_Auto_Open = 0
+let Tlist_Auto_Update = 1
+let Tlist_Close_On_Select = 0
+let Tlist_Compact_Format = 0
+let Tlist_Display_Prototype = 0
+let Tlist_Display_Tag_Scope = 1
+let Tlist_Enable_Fold_Column = 0
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_File_Fold_Auto_Close = 0
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Hightlight_Tag_On_BufEnter = 1
+let Tlist_Inc_Winwidth = 0
+let Tlist_Max_Submenu_Items = 1
+let Tlist_Max_Tag_Length = 30
+let Tlist_Process_File_Always = 0
+let Tlist_Show_Menu = 0
+let Tlist_Show_One_File = 1
+let Tlist_Sort_Type = "order"
+let Tlist_Use_Horiz_Window = 0
+let Tlist_Use_Right_Window = 0
+let Tlist_WinWidth = 25
+
+"Bundle 'AutoClose'
 
 "神级插件，ZenCoding可以让你以一种神奇而无比爽快的感觉写HTML、CSS
 "Bundle 'ZenCoding.vim'
@@ -108,7 +223,7 @@ Bundle 'matchit.zip'
 "let g:fencview_autodectect=1
 
 "显示行末的空格；
-Bundle 'ShowTrailingWhitespace'
+"Bundle 'ShowTrailingWhitespace'
 
 "highlight all trailing whitespace in red
 Bundle 'bronson/vim-trailing-whitespace'
@@ -120,30 +235,27 @@ Bundle 'bronson/vim-trailing-whitespace'
 "Bundle 'EasyMotion'
 
 "必不可少，在VIM的编辑窗口树状显示文件目录
-Bundle 'vim-scripts/The-NERD-tree'
-"设置相对行号
-nmap <leader>nt :NERDTree<cr>:set rnu<cr>
-let NERDTreeShowBookmarks=1
-let NERDTreeShowFiles=1
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.$','\~$']
-let NERDTreeShowLineNumbers=1
-let NERDTreeWinPos=1
+"https://github.com/scrooloose/nerdtree
+"Bundle 'vim-scripts/The-NERD-tree'
+""设置相对行号
+"nmap <leader>nt :NERDTree<cr>:set rnu<cr>
+"let NERDTreeShowBookmarks=1
+"let NERDTreeShowFiles=1
+"let NERDTreeShowHidden=1
+"let NERDTreeIgnore=['\.$','\~$']
+"let NERDTreeShowLineNumbers=1
+"let NERDTreeWinPos=1
 
 "NERD出品的快速给代码加注释插件，选中，`ctrl+h`即可注释多种语言代码；
-Bundle 'The-NERD-Commenter'
-let NERDShutUp=1
+"Bundle 'The-NERD-Commenter'
+"let NERDShutUp=1
 
-"navigation by Tags
-"Bundle 'majutsushi/tagbar'
-"nmap <F9> :TagbarToggle<CR>"
-""let g:tagbar_autofocus=1
 
 "解放生产力的神器，简单配置，就可以按照自己的风格快速输入大段代码。
-Bundle 'UltiSnips'
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+"Bundle 'UltiSnips'
+"let g:UltiSnipsExpandTrigger="<c-j>"
+"let g:UltiSnipsJumpForwardTrigger="<c-j>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 "让代码更加易于纵向排版，以=或,符号对齐
 Bundle 'Tabular'
@@ -160,37 +272,23 @@ let g:indentLine_color_term = 0
 let g:indentLine_char = '|'
 
 "the best complete plugin in vim currently
+"https://github.com/Valloric/YouCompleteMe
 "Bundle 'Valloric/YouCompleteMe'
 
 "support markdown syntax 
 Bundle 'plasticboy/vim-markdown'
 let g:vim_makrdown_folding_disabled = 1
 
+"check python syntast"
+"Bundle 'scrooloose/syntastic'
+
 "} END Vundle SETTINGS
-
-
-
-"map
-nnoremap <slient> <F8> :TlistToggle<CR>
-
-"taglist setting 
-let Tlist_Ctags_Cmd = '/usr/bin/ctags'
-let Tlist_Auto_Open=1
-let Tlist_Show_One_File=1
-let Tlist_OnlyWindow=1
-let Tlit_Process_File_Always=1
-let Tlist_GainFocus_On_ToggleOpen=1
-"taglist ending
-
+"################ Vundle END ################
 
 "set bs=indent,eol,start
 set ai
-"make the compleate like IDE
-set completeopt+=longest
-
-
-
-
+set wildmenu "complement the cmd auto"
+set wildignore=*.o,*~,*.pyc,*.class " Ignore compiled files
 
 "set paste
 "set backup " Keep a backup file
@@ -207,8 +305,10 @@ set showcmd " Show (partial) command in status line
 set showmatch " Show matching brackets
 set incsearch " Incremental Search
 "set autowrite " Automatically save file before :next and : prev
+set wrap "自动换行
 "set nowrap " Do not wrap text
 set textwidth=80 " Place automatic text breaks
+set hlsearch  " highlight the match word as yellow"
 
 " Enable Chinese encoding support
 "set encoding=euc-cn
@@ -236,7 +336,18 @@ filetype plugin on
 set runtimepath+=~/.vim/textmateOnly
 set runtimepath+=~/.vim/textmateOnly/after
 
-"========================using for python ==============================
+"################ quickfix ################
+autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+nmap <leader>cn :cn<cr>
+nmap <leader>cp :cp<cr>
+nmap <leader>cw 10<cr>
+",<space>“(先按,再按空格):编译
+",cp : 跳到上一个错误
+",cn : 跳到下一个错误
+",cw : 打开quickfix窗口
+
+
+"################ python ################
 "highlight
 set filetype=python
 au BufNewFile, BufRead *.py, *.pyw setf python
@@ -250,7 +361,7 @@ autocmd FileType python setlocal foldmethod=indent
 
 
 
-"##### auto fcitx  ###########
+"################ auto fcitx  ################
 let g:input_toggle = 1
 function! Fcitx2en()
    let s:input_status = system("fcitx-remote")
@@ -273,6 +384,52 @@ set ttimeoutlen=150
 autocmd InsertLeave * call Fcitx2en()
 "进入插入模式
 autocmd InsertEnter * call Fcitx2zh()
-"##### auto fcitx end ######
+"################ auto fcitx end ################
 
 
+"################ SetTitle ################
+""定义函数SetTitle，自动插入文件头 尅自定义文件头信息
+autocmd BufNewFile *.sh,*.py exec ":call SetTitle()"
+func SetTitle()
+"如果文件类型为.sh文件
+    if &filetype == 'sh'
+        call setline(1, "\#!/bin/bash")
+    endif
+
+    if &filetype == 'python'
+        call setline(1, "\#!/usr/bin/env python")
+        call append(1, "\# encoding: utf-8")
+    endif
+
+    normal G
+    normal o
+    normal o
+endfunc
+
+"################ SetTitle ################
+
+
+
+
+"################ Bundle Base ##################
+"####original repos on GitHub
+"Bundle 'tpope/vim-rails.git' equal to Bundle 'http://github.com/tpope/vim-fugitive.git'
+
+
+"####vim-scripts repos
+"Bundle 'L9'
+
+"####non-GitHub repos
+"Bundle 'git://git.wincent.com/command-t.git'
+" Git repos on your local machine (i.e. when working on your own plugin)
+"Bundle 'file:///Users/gmarik/path/to/plugin'
+
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install (update) bundles
+" :BundleSearch(!) foo - search (or refresh cache first) for foo
+" :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Bundle commands are not allowed.
+" referenc : https://github.com/wklken/k-vim/blob/master/vimrc
