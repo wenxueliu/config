@@ -26,3 +26,6 @@ sudo apt-get install jpeginfo
 sudo apt-get install pngtools
 sudo apt-get install imageinfo
 sudo apt-get install identify
+
+# gdb with vim 
+sudo apt-get install cgdb

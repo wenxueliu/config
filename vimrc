@@ -1,5 +1,5 @@
 
-"################ Dependent ################  
+"################ Dependent ################
 "#### ubuntu
 "sudo apt-get install ctags
 "sudo apt-get install build-essential cmake python-dev  #编译YCM自动补全插件依赖
@@ -11,16 +11,14 @@
 "#### mac
 "brew install ctags
 
-"if you are pythonic 
+"if you are pythonic
 "sudo pip install pyflakes
 "sudo pip install pylint
 "sudo pip install pep8
 
-
 "1.当你正在编辑时，留意那些重复的和（或者）花费相当多时间的动作。
 "2.寻找一个能更快完成这个动作的编辑器命令。你可以阅读文档，询问朋友，或者看看别人是怎么做的。
 "3.练习使用这个命令，直到无需思考你的手指就能输入。
-
 "注意
 "1. 我想把工作做好，我没有时间去翻阅文档寻找一些新命令。”如果你这样想，你将会停留在计算石器时代。有些人什么事都使用Notepad，然后惊讶于其他人使用一半的时间完成了工作。
 "2. 在需要的时候才寻找新的替代方法,而不要成为玩vim工具的，vim是为更好地写代码。
@@ -50,7 +48,7 @@ let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 "}
 
-"set nobackup 
+"set nobackup
 "set noswapfile
 
 "Tab SETTING {
@@ -60,6 +58,12 @@ set softtabstop=4 "delete four space when type backspace
 set smarttab "delete four space when type backspace
 set expandtab "transform the tab to space
 set shiftround "use multiple of shiftwidth when indenting with '<' and '>'
+"}
+
+"nmap SETTING {
+"<leader> is \
+nmap <leader>s :source $MYVIMRC
+nmap <leader>e :e $MYVIMRC
 "}
 
 " Encode SETTINGS {
@@ -280,7 +284,9 @@ Bundle 'plasticboy/vim-markdown'
 let g:vim_makrdown_folding_disabled = 1
 
 "check python syntast"
-"Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/syntastic'
+let g:syntastic_lua_checkers = ['luac']
+let g:syntastic_python_checkers = ['pep8']
 
 "} END Vundle SETTINGS
 "################ Vundle END ################
@@ -328,6 +334,8 @@ endif
 
 set autoindent
 set cindent
+syntax enable
+syntax on
 
 
 "these are useful for snippetsemu plugin such as taglist
