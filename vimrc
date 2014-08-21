@@ -279,6 +279,10 @@ let g:indentLine_char = '|'
 "https://github.com/Valloric/YouCompleteMe
 "Bundle 'Valloric/YouCompleteMe'
 
+"power man page 
+
+Bundle 'powerman/vim-plugin-viewdoc'
+
 "support markdown syntax 
 Bundle 'plasticboy/vim-markdown'
 let g:vim_makrdown_folding_disabled = 1
