@@ -1,4 +1,3 @@
-
 "################ Dependent ################
 "#### ubuntu
 "sudo apt-get install ctags
@@ -24,7 +23,8 @@
 "2. 在需要的时候才寻找新的替代方法,而不要成为玩vim工具的，vim是为更好地写代码。
 
 
-
+"################# Begin ######################
+"git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 "###################### BASE ########################
 
 set nocompatible "be iMproved
@@ -128,6 +128,12 @@ abbr op openstack
 
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
+
+"easyMotion
+Bundle 'Lokaltog/vim-easymotion/'
+
+"supertab
+Bundle 'ervandew/supertab'
 
 "let Vundle manage Vundle
 "required!
