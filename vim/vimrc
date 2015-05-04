@@ -119,7 +119,7 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 
 "################ Abbr ################
-abbr op openstack
+abbr pr print
 
 
 "################ Vundle "################
@@ -128,6 +128,9 @@ abbr op openstack
 
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
+" alternatively, pass a path where Vundle should install bundles
+" "let path = '~/some/path/here'
+" "call vundle#rc(path))
 
 "easyMotion
 "Bundle 'Lokaltog/vim-easymotion/'
@@ -137,13 +140,13 @@ call vundle#rc()
 
 "let Vundle manage Vundle
 "required!
-"Bundle 'gmarik/vundle'
+Bundle 'gmarik/vundle'
 
 " vim-sripts repos
 "Bundle 'vim-plugin-foo'
 "Bundle 'vim-plugin-bar'
 filetype indent on " required, adapt the indent to different filetype
-filetype plugin on " allow the plugin 
+filetype plugin on " allow the plugin
 filetype plugin indent on "complete the alphabet intelligently
 
 "相较于Command-T等查找文件的插件，ctrlp.vim最大的好处在于没有依赖，干净利落
@@ -285,7 +288,7 @@ let g:indentLine_char = '|'
 "https://github.com/Valloric/YouCompleteMe
 "Bundle 'Valloric/YouCompleteMe'
 
-"power man page 
+"power man page
 
 Bundle 'powerman/vim-plugin-viewdoc'
 
@@ -298,6 +301,25 @@ let g:vim_makrdown_folding_disabled = 1
 Bundle 'scrooloose/syntastic'
 let g:syntastic_lua_checkers = ['luac']
 let g:syntastic_python_checkers = ['pep8']
+let g:syntastic_java_javac_config_file_enabled = 1
+
+"rust support
+Bundle 'wting/rust.vim'
+
+
+"nimord or nim lang support
+Bundle 'zah/nimrod.vim'
+
+fun! JumpToDef()
+    if exists("*GotoDefinition_" . &filetype)
+        call GotoDefinition_{&filetype}()
+    else
+        exe "norm! \<C-]>"
+    endif
+endf
+"Jump to tag
+nn <M-g> :call JumpToDef()<cr>
+ino <M-g> <esc>:call JumpToDef()<cr>i
 
 "} END Vundle SETTINGS
 "################ Vundle END ################
@@ -326,6 +348,7 @@ set wrap "自动换行
 "set nowrap " Do not wrap text
 set textwidth=80 " Place automatic text breaks
 set hlsearch  " highlight the match word as yellow"
+set pastetoggle=<F9> "copy code without indent which make the code style mass
 
 " Enable Chinese encoding support
 "set encoding=euc-cn
@@ -400,9 +423,9 @@ endfunction
 
 set ttimeoutlen=150
 "退出插入模式
-autocmd InsertLeave * call Fcitx2en()
+"autocmd InsertLeave * call Fcitx2en()
 "进入插入模式
-autocmd InsertEnter * call Fcitx2zh()
+"autocmd InsertEnter * call Fcitx2zh()
 "################ auto fcitx end ################
 
 
