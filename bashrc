@@ -30,3 +30,5 @@ alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
 alias firewall=iptlist
  
+shopt -s histappend
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
