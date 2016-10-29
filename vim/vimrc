@@ -2,6 +2,7 @@
 "#### ubuntu
 "sudo apt-get install ctags
 "sudo apt-get install build-essential cmake python-dev  #编译YCM自动补全插件依赖
+"ctags -R  vim :set tags={DIR}, Ctrl+] Ctr+o
 
 "#### centos
 "sudo yum install python-devel.x86_64
@@ -303,6 +304,18 @@ let g:syntastic_lua_checkers = ['luac']
 let g:syntastic_python_checkers = ['pep8']
 let g:syntastic_java_javac_config_file_enabled = 1
 
+"check python code style
+"Bundle 'andviro/flake8-vim'
+"let g:PyFlakeOnWrite = 1
+"let g:PyFlakeCheckers = 'pep8,mccabe,frosted'
+"let g:PyFlakeDefaultComplexity=10
+"let g:PyFlakeCWindow = 6
+"let g:PyFlakeSigns = 1
+"let g:PyFlakeMaxLineLength = 100
+"let g:PyFlakeRangeCommand = 'Q'
+
+Bundle 'nvie/vim-flake8'
+
 "rust support
 Bundle 'wting/rust.vim'
 
@@ -371,6 +384,7 @@ set cindent
 syntax enable
 syntax on
 
+set clipboard=unnamedplus
 
 "these are useful for snippetsemu plugin such as taglist
 "filetype off
@@ -451,6 +465,7 @@ endfunc
 "################ SetTitle ################
 
 
+let g:syntastic_java_javac_classpath = "/home/wenxueliu/Dropbox/Clone/floodlight/target/bin/:/home/wenxueliu/Dropbox/Clone/floodlight/lib/*.jar:/home/wenxueliu/Dropbox/mygithub/Coding/java/nettyClient/target/bin"
 
 
 "################ Bundle Base ##################
@@ -475,3 +490,10 @@ endfunc
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle commands are not allowed.
 " referenc : https://github.com/wklken/k-vim/blob/master/vimrc
+"
+" ############## ctag ##################
+" ctags -R --c-kinds=+p --fields=+iaS --extra=+q .
+" ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
+"
+" ############# cscope ################
+" cscope -Rbq -f path/xxx.out
